@@ -1,14 +1,14 @@
 var Counter = React.createClass({
-    getInitialState: function() {
-        return {count: 0}
+    counterAdd: function() {
+        this.props.addFromChild()
     },
-
     render: function() {
+        console.log('pops: ', this.props.count);
+
         return (
             <div>
-                <h1>Count: {this.state.count}</h1>
-                <button className="btn btn-default" onClick={() => this.setState({count: this.state.count + 1})}>+</button>
-                <button className="btn btn-default" onClick={() => this.setState({count: this.state.count - 1})}>-</button>
+                <h1>Count: {this.props.count}</h1>
+                <button className="btn btn-default" onClick={this.counterAdd}>+</button>
             </div>
         )
     }
@@ -16,7 +16,7 @@ var Counter = React.createClass({
 
 var Root = React.createClass({
     getInitialState: function() {
-        return {one: 0}
+        return {one: 0, count: 0}
     },
 
     addCount: function(arg, e) {
@@ -39,7 +39,9 @@ var Root = React.createClass({
         this.setState(newState);
         console.log(newState);
     },
-
+    addFromChild: function() {
+        console.log('add function');
+    },
     render: function() {
         var greeting = 'hello';
         return (
@@ -49,7 +51,7 @@ var Root = React.createClass({
                 <button id="one" className="btn btn-default" onClick={this.addCount.bind(this, 'one')}>+</button>
                 <button id="one" className="btn btn-default" onClick={this.minusCount.bind(this, 'one')}>-</button>
                 <hr/>
-                <Counter/>
+                <Counter addFromChild={this.addFromChild} count={this.state.count}/>
             </div>
         )
     }
